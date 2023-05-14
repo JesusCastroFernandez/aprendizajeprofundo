@@ -1,0 +1,32 @@
+import numpy as np
+from keras.models import Sequential
+from keras.layers import Dense
+
+# Creamos un conjunto de datos de entrada y salida para entrenar nuestro modelo
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([[0], [1], [1], [0]])
+
+# Creamos el modelo secuencial
+model = Sequential()
+
+# Añadimos la capa de entrada con dos neuronas
+model.add(Dense(2, input_dim=2, activation='relu'))
+
+# Añadimos una capa oculta con cuatro neuronas
+model.add(Dense(4, activation='relu'))
+
+# Añadimos la capa de salida con una neurona
+model.add(Dense(1, activation='sigmoid'))
+
+# Compilamos el modelo con la función de pérdida 'binary_crossentropy'
+# y el optimizador 'adam'
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# Entrenamos el modelo durante 1000 épocas (iteraciones) con un tamaño de lote de 1
+model.fit(X, y, epochs=1000, batch_size=1)
+
+# Evaluamos el modelo en el conjunto de datos de entrenamiento
+scores = model.evaluate(X, y)
+
+# Mostramos la precisión del modelo
+print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
